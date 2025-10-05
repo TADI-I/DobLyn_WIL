@@ -8,6 +8,8 @@ package ui;
  *
  * @author abc
  */
+import db.DatabaseConnection;
+import java.awt.BorderLayout;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -18,13 +20,15 @@ public class ViewLogsFrame extends JFrame {
     public ViewLogsFrame() {
         setTitle("System Logs");
         setSize(500, 300);
-        loadLogs();
-        add(new JScrollPane(table));
+        table = new JTable(); // initialize before using
+        add(new JScrollPane(table), BorderLayout.CENTER);
+        loadLogs(); // call after adding table
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void loadLogs() {
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM logs ORDER BY log_time DESC";
             PreparedStatement pst = conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();

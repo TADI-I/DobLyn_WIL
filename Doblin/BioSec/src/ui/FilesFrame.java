@@ -31,7 +31,11 @@ public class FilesFrame extends JFrame {
         JButton logoutBtn = new JButton("Logout");
         logoutBtn.addActionListener(e -> logout());
 
-        JPanel bottomPanel = new JPanel();
+        JButton uploadbtn = new JButton("Upload");
+        uploadbtn.addActionListener(e -> upload());
+
+               JPanel bottomPanel = new JPanel();
+        bottomPanel.add(uploadbtn);
         bottomPanel.add(viewBtn);
         bottomPanel.add(logoutBtn);
 
@@ -41,6 +45,11 @@ public class FilesFrame extends JFrame {
 
     private void openFileViewer() {
         new FileViewerFrame().setVisible(true);
+    }
+    
+    private void upload(){
+         new UploadFrame().setVisible(true);
+         
     }
 
     private void logout() {

@@ -8,6 +8,7 @@ package ui;
  *
  * @author abc
  */
+import db.DatabaseConnection;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -25,12 +26,13 @@ public class AddUserFrame extends JFrame {
         add(btnAdd);
 
         btnAdd.addActionListener(e -> addUser());
-        setSize(300, 150);
+        setSize(300, 250);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     private void addUser() {
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "INSERT INTO users (username, password) VALUES (?, ?)";
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, txtUsername.getText());

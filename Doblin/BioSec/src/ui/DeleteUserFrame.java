@@ -8,6 +8,7 @@ package ui;
  *
  * @author abc
  */
+import db.DatabaseConnection;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -25,10 +26,11 @@ public class DeleteUserFrame extends JFrame {
         btnDelete.addActionListener(e -> deleteUser());
         setSize(300, 120);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     private void deleteUser() {
-        try (Connection conn = DBConnection.getConnection()) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "DELETE FROM users WHERE username = ?";
             PreparedStatement pst = conn.prepareStatement(query);
             pst.setString(1, txtUsername.getText());

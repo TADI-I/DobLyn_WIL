@@ -55,18 +55,20 @@ add(btnPanel, BorderLayout.SOUTH);
 
 private void addUser() {
  new AddUserFrame();
-        dispose(); 
+        
 }
 
 
 private void deleteUser() {
 new DeleteUserFrame();
-        dispose();}
+        
+}
 
 
 private void viewLogs() {
  new ViewLogsFrame();
-        dispose();}
+        
+}
 
 
 private void backToFiles() {
