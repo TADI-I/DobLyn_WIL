@@ -9,35 +9,44 @@ package ui;
  * @author abc
  */
 import db.DatabaseConnection;
-import java.awt.BorderLayout;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.sql.*;
+import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ViewLogsFrame extends JFrame {
-    JTable table = new JTable();
+    private JTable table = new JTable();
+    private String currentUser;
 
-    public ViewLogsFrame() {
+    public ViewLogsFrame(String currentUser) {
+        this.currentUser = currentUser;
+
         setTitle("System Logs");
-        setSize(500, 300);
-        table = new JTable(); // initialize before using
+        setSize(600, 350);
+        setLayout(new BorderLayout());
         add(new JScrollPane(table), BorderLayout.CENTER);
-        loadLogs(); // call after adding table
+
+        loadLogs();
+
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void loadLogs() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Action");
+        model.addColumn("Username");
+        model.addColumn("Time");
+
         try (Connection conn = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM logs ORDER BY log_time DESC";
             PreparedStatement pst = conn.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
-
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID");
-            model.addColumn("Action");
-            model.addColumn("Username");
-            model.addColumn("Time");
 
             while (rs.next()) {
                 model.addRow(new Object[]{
@@ -49,13 +58,10 @@ public class ViewLogsFrame extends JFrame {
             }
 
             table.setModel(model);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
-        }
-    }
 
-    public static void main(String[] args) {
-        new ViewLogsFrame();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error loading logs: " + ex.getMessage());
+        }
     }
 }
 

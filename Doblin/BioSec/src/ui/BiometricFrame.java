@@ -27,7 +27,7 @@ public class BiometricFrame extends JFrame {
     private void authenticateFingerprint() {
         // Placeholder for biometric logic integration
         JOptionPane.showMessageDialog(this, "Fingerprint matched successfully!");
-        new FilesFrame().setVisible(true);
+       // new FilesFrame().setVisible(true);
         this.dispose();
     }
 }
